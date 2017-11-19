@@ -1,4 +1,4 @@
-# performence-edition
+# performance-edition
 
 > Prototype of a performance edition
 
