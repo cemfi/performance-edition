@@ -1,0 +1,17 @@
+name: mir
+
+channels:
+ - conda-forge
+
+dependencies:
+ - python=3.6
+ - seaborn
+ - lxml
+ - librosa
+ - cython
+ - pillow
+ - pyaudio
+ - pip:
+   - mido
+   - git+https://github.com/craffel/pretty-midi.git
+   - intervaltree
