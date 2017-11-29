@@ -48,25 +48,21 @@ def annotate_measures(mei, oriented=False):
                 lry = int(elem.get('lry'))
 
                 if not oriented:
-                    draw.rectangle([ulx, uly, lrx, lry], fill=color_fill)
-                    draw.line([ulx, uly, ulx, lry], fill=color_outline, width=line_width)
-                    draw.line([ulx, uly, lrx, uly], fill=color_outline, width=line_width)
-                    draw.line([lrx, lry, lrx, uly], fill=color_outline, width=line_width)
-                    draw.line([lrx, lry, ulx, lry], fill=color_outline, width=line_width)
+                    points = [(ulx, uly), (lrx, uly), (lrx, lry), (ulx, lry)]
                 else:
-                    points = []
-                    for point in elem:
-                        points.append((int(point.get('x')), int(point.get('y'))))
+                    points = [(int(point.get('x')), int(point.get('y'))) for point in elem]
 
-                    draw.polygon(points, fill=color_fill)
-                    for k, _ in enumerate(points):
-                        draw.line(
-                            [points[k][0],
-                             points[k][1],
-                             points[(k + 1) % len(points)][0],
-                             points[(k + 1) % len(points)][1]],
-                            fill=color_outline, width=line_width)
+                # Draw measure
+                draw.polygon(points, fill=color_fill, outline=color_outline, width=line_width)
+                # for k, _ in enumerate(points):
+                #     draw.line(
+                #         [points[k][0],
+                #          points[k][1],
+                #          points[(k + 1) % len(points)][0],
+                #          points[(k + 1) % len(points)][1]],
+                #         fill=color_outline, width=line_width)
 
+                # Draw text number in center of measure
                 w, h = draw.textsize(n, font=font)
                 draw.rectangle(
                     [ulx + (lrx - ulx) / 2 - w / 1.2,

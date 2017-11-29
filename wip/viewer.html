@@ -5,7 +5,7 @@
   <title>Title</title>
 </head>
 <body>
-<div id="output"/>
+<div id="output"></div>
 </body>
 <script src="http://www.verovio.org/javascript/latest/verovio-toolkit.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -15,12 +15,12 @@
   /* eslint-disable */
 
   const options = {
-    border: 100,
+//    border: 100,
     scale: 50,
   };
   const vrvToolkit = new verovio.toolkit();
   $.ajax({
-    url: "data/source.mei",
+    url: "data/combined.mei",
     type: "GET",
     crossDomain: true,
     success: function (response) {
@@ -41,12 +41,12 @@
             .attr("y", system.getBBox().y)
             .attr("width", d3.select(this).select('.staff').node().getBBox().width)
             .attr("height", system.getBBox().height)
-            //              .attr("id", d3.select(this).attr("id"))
+            //.attr("id", d3.select(this).attr("id"))
             .style("fill", "#df5b5b")
             .style('stroke', 'red')
             .style('stroke-width', 20)
             .style("fill-opacity", "0.1")
-//            .style("opacity", "0.0")
+            //.style("opacity", "0.0")
             .on("click", function () {
               console.log(d3.select(measure).attr('id'));
             });
@@ -57,7 +57,7 @@
             .style("font-family", "Verdana")
             .style("fill", "red")
             .style("font-weight", "bold")
-//            .text(d3.select(measure).attr('id'));
+            //.text(d3.select(measure).attr('id'));
             .text(d3.select(measure).attr('id') + '\t' + counter);
           counter++;
         });

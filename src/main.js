@@ -2,10 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import vgl from 'vue-golden-layout';
+import vuescroll from 'vue-scroll';
 
 import App from './App';
 
 Vue.use(vgl);
+Vue.use(vuescroll);
 
 Vue.config.productionTip = false;
 

@@ -8,6 +8,7 @@ dependencies:
  - seaborn
  - lxml
  - librosa
+ - jpype1
  - cython
  - pillow
  - pyaudio

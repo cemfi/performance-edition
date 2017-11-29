@@ -1,4 +1,3 @@
-import re
 import sys
 
 from lxml import etree
@@ -32,4 +31,4 @@ def combine(mei_path, vertaktoid_path, combined_path=None):
 
 
 if __name__ == '__main__':
-    combine('data/source.mei', 'data/measures_mov_edit.mei', combined_path='data/combined.mei')
+    combine('data/source.mei', 'data/measures_final.mei', combined_path='data/combined.mei')
