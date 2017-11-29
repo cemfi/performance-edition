@@ -20,21 +20,24 @@
     mounted() {
       this.wavesurfer = WaveSurfer.create({
         container: '#waveform',
-        waveColor: 'violet',
+        waveColor: "#EEEEEE",
+        progressColor: '#444444',
         plugins: [
           TimelinePlugin.create({
             container: '#waveform-timeline',
+            primaryColor: '#EEEEEE',
+            secondaryColor: '#666666',
+            primaryFontColor: '#EEEEEE',
+            secondaryFontColor: '#EEEEEE',
           }),
-          MinimapPlugin.create({
-            container: '#waveform-minimap',
-          }),
+          // MinimapPlugin.create({
+          //   container: '#waveform-minimap',
+          // }),
         ],
       });
       this.wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
-    },
-    destroyed() {
-      this.$refs.wrapper.removeEventListener('wheel', this.zoom);
+      this.$parent.$on('resize', this.resize);
     },
     data() {
       return {
@@ -58,6 +61,10 @@
         // eslint-disable-next-line no-console
         console.log(this.$data.zoomLevel);
       },
+      resize() {
+        this.wavesurfer.drawBuffer();
+        // this.wavesurfer.minimap.render();
+      },
     },
   };
 </script>
@@ -65,3 +72,7 @@
 <style scoped>
 
 </style>
+
+<!--TODO:-->
+<!--Generate Loudness Audio files:-->
+<!--https://github.com/bbc/audiowaveform/blob/master/doc/DataFormat.md-->
