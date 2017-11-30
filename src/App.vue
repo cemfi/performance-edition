@@ -16,6 +16,7 @@
 </script>
 
 <style src="@/theme/goldenlayout.less" lang="less"></style>
+<style src="@/theme/custom.less" lang="less"></style>
 
 <style>
   #app {

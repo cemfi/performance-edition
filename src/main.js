@@ -4,6 +4,8 @@ import Vue from 'vue';
 import vgl from 'vue-golden-layout';
 import vuescroll from 'vue-scroll';
 
+import EventBus from './event-bus';
+
 import App from './App';
 
 Vue.use(vgl);
@@ -16,4 +18,13 @@ new Vue({
   el: '#app',
   template: '<App/>',
   components: { App },
+  mounted() {
+    // Emit event for pressed spacebar to play audio file
+    window.addEventListener('keypress', (event) => {
+      const key = event.keyCode || event.charCode; // cross browser support
+      if (key === 32) { // spacebar
+        EventBus.$emit('playPause');
+      }
+    });
+  },
 });
