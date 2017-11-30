@@ -26,6 +26,7 @@
         container: '#waveform',
         waveColor: '#EEEEEE',
         progressColor: '#999999',
+        normalize: true,
         plugins: [
           TimelinePlugin.create({
             container: '#waveform-timeline',
@@ -40,10 +41,12 @@
           // }),
         ],
       });
-      this.wavesurfer.load('https://ia800508.us.archive.org/15/items/LoveThemeFromTheGodfather/02LoveThemeFromTheGodfather.mp3');
+      // eslint-disable-next-line global-require
+      this.wavesurfer.load(require('../assets/Curson_original.mp3'));
 
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
       this.$parent.$on('resize', this.redraw);
+      // EventBus.$on('resize', this.redraw);
       EventBus.$on('playPause', this.playPause);
     },
     data() {
@@ -60,12 +63,13 @@
         zoomLevel -= Math.sign(event.deltaY) * 8;
         if (zoomLevel < 0) {
           zoomLevel = 0;
-        } else if (zoomLevel > 400) {
-          zoomLevel = 400;
+        } else if (zoomLevel > 100) {
+          zoomLevel = 100;
         }
         this.$data.zoomLevel = zoomLevel;
         this.wavesurfer.zoom(zoomLevel);
         this.redraw();
+
         // eslint-disable-next-line no-console
         console.log(this.$data.zoomLevel);
       },
@@ -73,7 +77,11 @@
         const newHeight = this.$parent.container.height - TIMELINE_HEIGHT - (this.$el.offsetTop * 2);
         this.wavesurfer.params.height = newHeight;
         this.wavesurfer.drawer.setHeight(newHeight);
-        this.wavesurfer.drawBuffer();
+        try {
+          this.wavesurfer.drawBuffer();
+          // eslint-disable-next-line no-empty
+        } catch (e) {
+        }
         // this.wavesurfer.minimap.render();
       },
     },

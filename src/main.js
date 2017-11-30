@@ -26,5 +26,8 @@ new Vue({
         EventBus.$emit('playPause');
       }
     });
+    window.addEventListener('resize', () => {
+      EventBus.$emit('resize');
+    });
   },
 });
