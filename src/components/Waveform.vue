@@ -45,6 +45,7 @@
       this.wavesurfer.load(require('../assets/Curson_original.mp3'));
 
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
+      this.wavesurfer.drawer.wrapper.addEventListener('scroll', this.redraw);
       this.$parent.$on('resize', this.redraw);
       // EventBus.$on('resize', this.redraw);
       EventBus.$on('playPause', this.playPause);
@@ -66,12 +67,14 @@
         } else if (zoomLevel > 100) {
           zoomLevel = 100;
         }
-        this.$data.zoomLevel = zoomLevel;
-        this.wavesurfer.zoom(zoomLevel);
-        this.redraw();
+        if (this.$data.zoomLevel !== zoomLevel) {
+          this.$data.zoomLevel = zoomLevel;
+          this.wavesurfer.zoom(zoomLevel);
+          this.redraw();
 
-        // eslint-disable-next-line no-console
-        console.log(this.$data.zoomLevel);
+          // eslint-disable-next-line no-console
+          console.log(this.$data.zoomLevel);
+        }
       },
       redraw() {
         const newHeight = this.$parent.container.height - TIMELINE_HEIGHT - (this.$el.offsetTop * 2);
