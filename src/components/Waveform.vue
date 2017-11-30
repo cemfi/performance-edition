@@ -5,7 +5,7 @@
       <div id="waveform" @scroll="zoom"></div>
       <div id="waveform-timeline"></div>
     </div>
-    <button @click="play">Play / Pause</button>
+    <!--<button @click="play">Play / Pause</button>-->
   </div>
 </template>
 
@@ -13,15 +13,15 @@
 <script>
   import WaveSurfer from 'wavesurfer.js';
   import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min';
-  import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap.min';
+  // import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap.min';
 
   export default {
     name: 'Waveform',
     mounted() {
       this.wavesurfer = WaveSurfer.create({
         container: '#waveform',
-        waveColor: "#EEEEEE",
-        progressColor: '#444444',
+        waveColor: '#EEEEEE',
+        progressColor: '#999999',
         plugins: [
           TimelinePlugin.create({
             container: '#waveform-timeline',
@@ -37,7 +37,9 @@
       });
       this.wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
-      this.$parent.$on('resize', this.resize);
+      this.$parent.$on('resize', this.redraw);
+      // eslint-disable-next-line no-console
+      console.log(this.$parent);
     },
     data() {
       return {
@@ -58,10 +60,14 @@
         }
         this.$data.zoomLevel = zoomLevel;
         this.wavesurfer.zoom(zoomLevel);
+        this.redraw();
         // eslint-disable-next-line no-console
         console.log(this.$data.zoomLevel);
       },
-      resize() {
+      redraw() {
+
+        console.log(this.wavesurfer);
+        this.wavesurfer.drawer.height = this.$parent.container.height;
         this.wavesurfer.drawBuffer();
         // this.wavesurfer.minimap.render();
       },

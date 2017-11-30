@@ -1,9 +1,14 @@
 <template>
   <layout-golden class="screen" :showPopoutIcon="false" :showCloseIcon="false" :showMaximiseIcon="false">
     <gl-row>
-      <gl-row :width="0.8">
-        <gl-component v-for="key in activeSources" :key="key" :title="sources[key].name"></gl-component>
-      </gl-row>
+      <gl-col :width="0.8">
+        <gl-component title="Aufnahme" :height="0.15" :closable="false">
+          <Waveform></Waveform>
+        </gl-component>
+        <gl-row :height="0.85">
+          <gl-component v-for="key in activeSources" :key="key" :title="sources[key].name"></gl-component>
+        </gl-row>
+      </gl-col>
       <gl-col :width="0.2">
         <gl-component title="Notenquellen" :height="0.3" :closable="false">
           <div v-for="(source, key) in sources">
@@ -15,7 +20,6 @@
             {{ source.name }}
           </div>
         </gl-component>
-        <gl-component title="Aufnahmen" :height="0.2" :closable="false"><Waveform></Waveform></gl-component>
         <gl-component title="Details" :height="0.5" :closable="false"></gl-component>
       </gl-col>
     </gl-row>
