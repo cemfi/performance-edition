@@ -15,6 +15,8 @@
   import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min';
   // import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap.min';
 
+  const TIMELINE_HEIGHT = 20;
+
   export default {
     name: 'Waveform',
     mounted() {
@@ -29,13 +31,14 @@
             secondaryColor: '#666666',
             primaryFontColor: '#EEEEEE',
             secondaryFontColor: '#EEEEEE',
+            height: TIMELINE_HEIGHT,
           }),
           // MinimapPlugin.create({
           //   container: '#waveform-minimap',
           // }),
         ],
       });
-      this.wavesurfer.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3');
+      this.wavesurfer.load('https://ia800508.us.archive.org/15/items/LoveThemeFromTheGodfather/02LoveThemeFromTheGodfather.mp3');
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
       this.$parent.$on('resize', this.redraw);
       // eslint-disable-next-line no-console
@@ -65,9 +68,12 @@
         console.log(this.$data.zoomLevel);
       },
       redraw() {
-
+        // eslint-disable-next-line no-console
         console.log(this.wavesurfer);
-        this.wavesurfer.drawer.height = this.$parent.container.height;
+
+        // this.wavesurfer.drawer.setHeight();
+        this.wavesurfer.params.height = this.$parent.container.height - TIMELINE_HEIGHT;
+        this.wavesurfer.drawer.setHeight(this.$parent.container.height - TIMELINE_HEIGHT);
         this.wavesurfer.drawBuffer();
         // this.wavesurfer.minimap.render();
       },
