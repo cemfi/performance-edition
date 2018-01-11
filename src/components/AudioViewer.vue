@@ -20,7 +20,7 @@
   const TIMELINE_HEIGHT = 20;
 
   export default {
-    name: 'Waveform',
+    name: 'AudioViewer',
     mounted() {
       this.wavesurfer = WaveSurfer.create({
         container: '#waveform',
@@ -42,13 +42,14 @@
         ],
       });
       // eslint-disable-next-line global-require
-      this.wavesurfer.load(require('../assets/Curson_original.mp3'));
+      this.wavesurfer.load(require('../dataset/Curson_original.mp3'));
 
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
       this.wavesurfer.drawer.wrapper.addEventListener('scroll', this.redraw);
       this.$parent.$on('resize', this.redraw);
       // EventBus.$on('resize', this.redraw);
       EventBus.$on('playPause', this.playPause);
+      EventBus.$on('audio_seek', this.setCurrentTime);
     },
     data() {
       return {
@@ -59,13 +60,16 @@
       playPause() {
         this.wavesurfer.playPause();
       },
+      setCurrentTime(secs) {
+        this.wavesurfer.seekTo(secs / this.wavesurfer.getDuration());
+      },
       zoom(event) {
         let zoomLevel = this.$data.zoomLevel;
-        zoomLevel -= Math.sign(event.deltaY) * 8;
+        zoomLevel -= Math.sign(event.deltaY) * 6;
         if (zoomLevel < 0) {
           zoomLevel = 0;
-        } else if (zoomLevel > 100) {
-          zoomLevel = 100;
+        } else if (zoomLevel > 80) {
+          zoomLevel = 80;
         }
         if (this.$data.zoomLevel !== zoomLevel) {
           this.$data.zoomLevel = zoomLevel;
@@ -74,6 +78,8 @@
 
           // eslint-disable-next-line no-console
           console.log(this.$data.zoomLevel);
+          // eslint-disable-next-line no-console
+          console.log(this.wavesurfer);
         }
       },
       redraw() {

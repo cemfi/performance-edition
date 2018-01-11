@@ -21,8 +21,14 @@ def combine(mei_path, vertaktoid_path, combined_path=None):
 
     if len(mei_measures) == len(vertaktoid_measures):
         for i in range(len(mei_measures)):
+            print(
+                mei_measures[i].get('{{{ns}}}id'.format(ns=ns['xml'])),
+                vertaktoid_measures[i].get('{{{ns}}}id'.format(ns=ns['xml'])),
+                vertaktoid_measures[i].get('n')
+            )
             mei_measures[i].set('label', vertaktoid_measures[i].get('n'))
             mei_measures[i].set('facs', vertaktoid_measures[i].get('facs'))
+            # mei_measures[i].set('{{{ns}}}id'.format(ns=ns['xml']), str(i + 1))
     else:
         sys.stderr.write('Error: Numbers of measures do not match!')
 
@@ -31,4 +37,4 @@ def combine(mei_path, vertaktoid_path, combined_path=None):
 
 
 if __name__ == '__main__':
-    combine('data/source.mei', 'data/measures_final.mei', combined_path='data/combined.mei')
+    combine('data/source.mei', 'data/measures_new.mei', combined_path='data/combined.mei')

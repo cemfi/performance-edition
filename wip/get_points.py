@@ -33,4 +33,4 @@ def annotate_measures(mei):
 
 
 if __name__ == '__main__':
-    annotate_measures('data/measures.mei')
+    annotate_measures('data/aligned.mei')

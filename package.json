@@ -11,10 +11,12 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "openseadragon": "^2.3.1",
+    "svg-pan-zoom": "^3.5.3",
     "vue": "^2.5.2",
     "vue-golden-layout": "^1.1.1",
+    "vue-openseadragon": "^0.1.1",
     "vue-router": "^3.0.1",
-    "vue-scroll": "^2.1.1",
     "wavesurfer.js": "^2.0.0-beta02"
   },
   "devDependencies": {
