@@ -20,7 +20,7 @@
   };
   const vrvToolkit = new verovio.toolkit();
   $.ajax({
-    url: "data/combined.mei",
+    url: "data/aligned.mei",
     type: "GET",
     crossDomain: true,
     success: function (response) {
@@ -36,6 +36,8 @@
         const system = this;
         d3.select(this).selectAll('.measure').each(function () {
           const measure = this;
+
+
           d3.select(measure).append("rect")
             .attr("x", d3.select(this).select('.staff').node().getBBox().x)
             .attr("y", system.getBBox().y)
@@ -50,6 +52,8 @@
             .on("click", function () {
               console.log(d3.select(measure).attr('id'));
             });
+
+
           d3.select(measure).append("text")
             .attr("x", d3.select(measure).select('.staff').node().getBBox().x + 100)
             .attr("y", this.getBBox().y + 300)

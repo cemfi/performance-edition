@@ -6,6 +6,8 @@ import sys
 
 import jpype
 import librosa
+import librosa.display
+import matplotlib.pyplot as plt
 import numpy as np
 
 from lxml import etree
@@ -75,9 +77,9 @@ def from_meico(xml, begin=0, end=np.inf):
                     pitch = notes_and_rests[elem]['pitch']
                     cqt_matrix[pitch, c] += 1
 
-                    cqt_matrix[pitch, c + 1] += 0.5
-                    cqt_matrix[pitch, c + 2] += 0.3
-                    cqt_matrix[pitch, c + 3] += 0.1
+                    # cqt_matrix[pitch, c + 1] += 0.5
+                    # cqt_matrix[pitch, c + 2] += 0.3
+                    # cqt_matrix[pitch, c + 3] += 0.1
                     # if pitch + 12 <= cqt_matrix.shape[0]:
                     #     cqt_matrix[pitch + 12, c] += 0.4
                     # if pitch + 19 <= cqt_matrix.shape[0]:
@@ -207,41 +209,44 @@ def calc_alignment(audio_path, mei_path):
     # Calculate MEI chroma features
     cqt_mei, id_to_index = from_meico(debug_mei_xml)
     chroma_mei = to_chroma(cqt_mei)
-    # chroma_mei_circular = chroma_mei[circular]
+    chroma_mei_circular = chroma_mei[circular]
 
     # Calculate audio chroma features
     # chroma_size = round(len(wave_data) / chroma_mei.shape[1])
     hop_length = 2 ** math.ceil(math.log2(len(wave_data) / chroma_mei.shape[1]))
 
-    cqt = librosa.feature.chroma_stft(wave_data, sr=sr, hop_length=hop_length)
-    chroma_audio = to_chroma(cqt)
-    # cqt = librosa.cqt(wave_data, sr=sr, bins_per_octave=12 * 3, n_bins=12 * 8 * 3, tuning=0,
-    #                   fmin=librosa.midi_to_hz(24), hop_length=hop_length)
-    # cqt_splitted = librosa.magphase(cqt)[0].reshape(-1, 3, cqt.shape[1])
-    # energy = cqt_splitted.sum(0)
-    # energy_argmax = np.argmax(energy, axis=0)
-    #
-    # new_cqt = np.empty((12 * 8, cqt_splitted.shape[2]))
-    # for frame, feature in enumerate(cqt_splitted.T):
-    #     # https://ccrma.stanford.edu/~jos/sasp/Quadratic_Interpolation_Spectral_Peaks.html
-    #
-    #     a = energy[(energy_argmax[frame] - 1) % 3, frame]
-    #     b = energy[energy_argmax[frame], frame]
-    #     c = energy[(energy_argmax[frame] + 1) % 3, frame]
-    #     p = 0.5 * (a - c) / (a - 2 * b + c)  # [-0.5, +0.5]
-    #
-    #     new_cqt[:, frame] = feature[energy_argmax[frame]] - (
-    #         0.25 * (
-    #         feature[(energy_argmax[frame] - 1) % 3] - feature[(energy_argmax[frame] + 1) % 3]) * p)
-    #
-    #     # new_cqt[:, frame] = feature[energy_argmax[frame]]
-    # chroma_audio = to_chroma(new_cqt)
+    # cqt = librosa.feature.chroma_stft(wave_data, sr=sr, hop_length=hop_length)
+    # chroma_audio = to_chroma(cqt)
+    cqt = librosa.cqt(wave_data, sr=sr, bins_per_octave=12 * 3, n_bins=12 * 8 * 3, tuning=0,
+                      fmin=librosa.midi_to_hz(24), hop_length=hop_length)
+    cqt_splitted = librosa.magphase(cqt)[0].reshape(-1, 3, cqt.shape[1])
+    energy = cqt_splitted.sum(0)
+    energy_argmax = np.argmax(energy, axis=0)
+
+    new_cqt = np.empty((12 * 8, cqt_splitted.shape[2]))
+    for frame, feature in enumerate(cqt_splitted.T):
+        # https://ccrma.stanford.edu/~jos/sasp/Quadratic_Interpolation_Spectral_Peaks.html
+
+        a = energy[(energy_argmax[frame] - 1) % 3, frame]
+        b = energy[energy_argmax[frame], frame]
+        c = energy[(energy_argmax[frame] + 1) % 3, frame]
+        p = 0.5 * (a - c) / (a - 2 * b + c)  # [-0.5, +0.5]
+
+        new_cqt[:, frame] = feature[energy_argmax[frame]] - (
+            0.25 * (
+            feature[(energy_argmax[frame] - 1) % 3] - feature[(energy_argmax[frame] + 1) % 3]) * p)
+
+        # new_cqt[:, frame] = feature[energy_argmax[frame]]
+    chroma_audio = to_chroma(new_cqt)
 
     # Calculate warping path
     # distances = 1 - np.max(np.matmul(chroma_mei_circular.T, chroma_audio), axis=1)
-    # path = dtw(distances)[1]
+    distances = cdist(chroma_mei.T, chroma_audio.T)
+    # librosa.display.specshow(distances)
+    # plt.show()
+    path = dtw(distances)[1]
 
-    path = librosa.dtw(chroma_mei, chroma_audio)[1]
+    # path = librosa.dtw(chroma_mei, chroma_audio)[1]
     path_dict = {key: value for (key, value) in path}
 
     # Extract mappings

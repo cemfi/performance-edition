@@ -31,6 +31,7 @@ def annotate_measures(mei, oriented=False):
         image = Image.open(filename)
         draw = ImageDraw.Draw(image, 'RGBA')
         color = colorsys.hsv_to_rgb(0.5, 1, 0.4)
+        print(color)
         color_outline = (int(color[0] * 255), int(color[1] * 255), int(color[2] * 255), 255)
         color_fill = (int(color[0] * 255), int(color[1] * 255), int(color[2] * 255), 40)
         font = ImageFont.truetype('SourceCodePro-Bold.otf', int(scale / 120))

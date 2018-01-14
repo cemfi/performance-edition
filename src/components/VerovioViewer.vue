@@ -35,7 +35,7 @@
   }
 
   #verovioViewer {
-    background-color: white;
+    /*background-color: white;*/
   }
 
 </style>

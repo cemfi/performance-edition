@@ -75,8 +75,9 @@
   }
 
   .bla {
-    background-color: #ffffff40;
-    outline: #ffffff70 solid 2px;
+    background-color: #00666640;
+    outline: #006666f0 solid 2px;
+
   }
 
 </style>

@@ -9,9 +9,9 @@
           <gl-component title="Quellnoten" :closable="false">
             <ImageViewer></ImageViewer>
           </gl-component>
-          <!--<gl-component title="MEI-Rendering" :closable="false">-->
-            <!--<VerovioViewer></VerovioViewer>-->
-          <!--</gl-component>-->
+          <gl-component title="MEI-Rendering" :closable="false">
+            <VerovioViewer></VerovioViewer>
+          </gl-component>
         </gl-row>
       </gl-col>
       <!--<gl-col :width="0.2">-->
