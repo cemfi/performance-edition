@@ -10,7 +10,7 @@
   /* eslint-disable global-require */
 
   import OpenSeadragon from 'openseadragon';
-  import dataset from '../dataset/dataset.json';
+  import dataset from '../../static/dataset/dataset.json';
   import EventBus from '../event-bus';
 
   export default {
@@ -33,7 +33,7 @@
           x: offset,
           height: 1,
           // eslint-disable-next-line import/no-dynamic-require
-          url: require(`../dataset/${image.file}`),
+          url: `/static/dataset/${image.file}`,
           success: (event) => {
             const tiledImage = event.item;
 

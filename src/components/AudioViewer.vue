@@ -42,7 +42,7 @@
         ],
       });
       // eslint-disable-next-line global-require
-      this.wavesurfer.load(require('../dataset/Curson_original.mp3'));
+      this.wavesurfer.load('/static/dataset/Curson_original.mp3');
 
       this.$refs.wrapper.addEventListener('wheel', this.zoom);
       this.wavesurfer.drawer.wrapper.addEventListener('scroll', this.redraw);
