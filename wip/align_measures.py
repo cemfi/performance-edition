@@ -359,7 +359,7 @@ if __name__ == '__main__':
         output_path='data/combined.mei'
     )
 
-    audio_path = os.path.realpath(os.path.join('data', 'Curson_original.mp3'))
+    audio_path = os.path.realpath(os.path.join('data', 'Curzon_original.mp3'))
     mei_path = os.path.realpath(os.path.join('data', 'combined.mei'))
 
     note_alignment = calc_alignment(audio_path, mei_path)

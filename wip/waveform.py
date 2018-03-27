@@ -13,6 +13,6 @@ def generate_waveform(audio_file, json_file, sr=200):
 
 if __name__ == '__main__':
     generate_waveform(
-        os.path.join('data', 'Curson_original.mp3'),
+        os.path.join('data', 'Curzon_original.mp3'),
         os.path.join('data', 'waveform.json')
     )

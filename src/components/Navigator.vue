@@ -1,6 +1,13 @@
 <template>
   <layout-golden class="screen" :showPopoutIcon="false" :showCloseIcon="false" :showMaximiseIcon="false">
+    <!--<layout-golden class="screen" >-->
     <gl-row>
+      <!--<gl-col :width="0.2">-->
+        <!--<gl-component title="Annotationen" :closable="false">-->
+          <!--<AnnotationViewer></AnnotationViewer>-->
+        <!--</gl-component>-->
+      <!--</gl-col>-->
+
       <gl-col :width="0.8">
         <gl-component title="Aufnahme" :height="0.2" :closable="false">
           <AudioViewer></AudioViewer>
@@ -14,9 +21,6 @@
           </gl-component>
         </gl-row>
       </gl-col>
-      <!--<gl-col :width="0.2">-->
-        <!--<gl-component title="Details" :closable="false"></gl-component>-->
-      <!--</gl-col>-->
     </gl-row>
   </layout-golden>
 </template>
@@ -25,6 +29,7 @@
   import AudioViewer from './AudioViewer';
   import ImageViewer from './ImageViewer';
   import VerovioViewer from './VerovioViewer';
+  import AnnotationViewer from './AnnotationViewer';
 
   export default {
     name: 'Navigator',
@@ -32,6 +37,7 @@
       AudioViewer,
       ImageViewer,
       VerovioViewer,
+      AnnotationViewer,
     },
   };
 </script>

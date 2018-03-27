@@ -18,7 +18,9 @@
       const viewer = OpenSeadragon({
         id: 'verovioViewer',
         showNavigationControl: false,
-        clickToZoom: false,
+        gestureSettingsMouse: {
+          clickToZoom: false,
+        },
         viewportMargins: { top: 10, left: 10, right: 10, bottom: 10 },
       });
 
@@ -28,6 +30,8 @@
 //       const options = {
 // //    border: 100,
 //         scale: 50,
+//         pageWidth: 2100,
+//         adjustPageHeight: true,
 //       };
 //       const vrvToolkit = new verovio.toolkit();
 //       $.ajax({
@@ -39,16 +43,27 @@
 //           vrvToolkit.loadData(response);
 //           vrvToolkit.redoLayout();
 //           const pageCount = vrvToolkit.getPageCount();
-//           for (let i = 1; i <= pageCount; i += 1) {
-//             const elem = document.createElement('div');
-//             elem.id = `verovio-${i}`;
-//             elem.className = 'verovioScore';
-//             elem.innerHTML = vrvToolkit.renderPage(i);
-//             viewer.addSimpleImage({
-//               url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=',
-//               height: 1,
-//             });
-//           }
+//           // Add transparent pixel as a placeholder. SVG will be added as overlay
+//           viewer.addSimpleImage({
+//             url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=',
+//             // url: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+//             height: 1,
+//             success: (event) => {
+//               for (let i = 1; i <= 1; i += 1) {
+//                 const elem = document.createElement('div');
+//                 elem.id = `verovio-${i}`;
+//                 elem.className = 'verovioScore';
+//                 elem.innerHTML = vrvToolkit.renderPage(i, options);
+//
+//                 viewer.addOverlay({
+//                   element: elem,
+//                   checkResize: true,
+//                   location: new OpenSeadragon.Rect(),
+//                   placement: OpenSeadragon.Placement.TOP_LEFT,
+//                 });
+//               }
+//             },
+//           });
 //           // $('#verovioViewer').html(svg);
 //         },
 //       });
@@ -57,14 +72,23 @@
 </script>
 
 
-<style scoped>
+<style>
   #root, #verovioViewer {
     width: 100%;
     height: 100%;
+    display: flex;
   }
 
   #verovioViewer {
-    /*background-color: white;*/
+    box-sizing: border-box;
   }
 
+  .verovioScore {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .verovioScore svg {
+    /*background-color: #ffffff;*/
+  }
 </style>
